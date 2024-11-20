@@ -1,0 +1,35 @@
+1: What is the role of an IPS
+2: Identify the steps needed to configure a switch for SSH
+3: Match the type of information security threat to the scenario
+4: A user is redesigning a network for a small company and wants to ensure security at a reasonable price
+5: Which example of malicious code would be classified as a Trojan horse
+6: What is the advantage of using SSH over Telnet
+7: What is the purpose of the network security authentication function
+8: What feature of SSH makes it more secure than Telnet for a device management connection
+9: Which firewall feature is used to ensure that packets coming into a network are legitimate responses to requests initiated from internal hosts
+10: Match each weakness with an example
+11: What is the difference between a virus and a worm
+12: Which command can an administrator execute to determine what interface a router will use to reach remote networks
+13: By following a structured troubleshooting approach, a network administrator identified a network issue after a conversation with the user
+14: A network administrator is upgrading a small business network to give high priority to real-time applications traffic
+15: Which command should be used on a Cisco router or switch to allow log messages to be displayed on remotely connected sessions using Telnet or SSH
+16: Refer to the exhibit
+17: Users are complaining that they are unable to browse certain websites on the Internet
+18: An employee complains that a Windows PC cannot connect to the Internet
+19: A network technician issues the C:> tracert -6 www
+20: Refer to the exhibit
+21: A user reports a lack of network connectivity
+22: Which method is used to send a ping message specifying the source address for the ping
+23: Why would a network administrator use the tracert utility
+24: A ping fails when performed from router R1 to directly connected router R2
+25: What information about a Cisco router can be verified using the show version command
+26: Which statement is true about Cisco IOS ping indicators
+27: A network engineer is troubleshooting connectivity issues among interconnected Cisco routers and switches
+28: file_download PT Activity Open the PT Activity
+29: On which two interfaces or ports can security be improved by configuring executive timeouts
+30: When configuring SSH on a router to implement secure network management, a network engineer has issued the login local and transport input ssh line vty commands
+31: A technician is to document the current configurations of all network devices in a college, including those in off-site buildings
+32: What is considered the most effective way to mitigate a worm attack
+33: Which statement describes the ping and tracert commands
+34: An administrator decides to use "pR3s
+35: An administrator is troubleshooting connectivity issues and needs to determine the IP address of a website
