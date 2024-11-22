@@ -1,6 +1,6 @@
-import os
 import time
 import threading
+import keyboard  # Для отслеживания клавиш
 from chrome import main_loop
 from databaza import DATABASE
 from Questionnc import extract_first_sentence
@@ -8,99 +8,55 @@ from compilator import process_file
 from virt import extract_and_write_questions
 from maikamf import mainx
 
-
-def process_questions(file_path):
-    """
-    Обробляє файл з питаннями, дозволяючи користувачу запитувати відповіді за номером.
-    """
+def execute_sequence():
+    """Выполняет цепочку операций с заданными задержками."""
     try:
-        # Спроба відкрити файл із різними кодуваннями
-        try:
-            with open(file_path, "r", encoding="utf-8") as file:
-                lines = file.readlines()
-        except UnicodeDecodeError:
-            with open(file_path, "r", encoding="windows-1251") as file:
-                lines = file.readlines()
+        y = "visible_text.txt"
+        fds = "extracted_questions.txt"
+        dfgdgf = "output.txt"
+        zro = "ou1tput.txt"
 
-        # Завантаження питань і відповідей
-        data = {int(line.split(":", 1)[0].strip()): line.split(":", 1)[1].strip() for line in lines if ':' in line}
+        print("Запуск extract_and_write_questions через 10 секунд...")
+        time.sleep(10)
+        extract_and_write_questions(y, fds)
+        print("extract_and_write_questions выполнена.")
 
-        # Основний цикл запитів користувача
-        while True:
-            user_input = input("Введіть номер питання (або 'exit' для виходу): ").strip()
-            if user_input.lower() == "exit":
-                print("До побачення!")
-                break
+        print("Запуск extract_first_sentence через 3 секунды...")
+        time.sleep(3)
+        extract_first_sentence(fds, dfgdgf)
+        print("extract_first_sentence выполнена.")
 
-            try:
-                question_number = int(user_input)
-                if question_number in data:
-                    question, answer = map(str.strip, data[question_number].split(":", 1))
-                    print(f"Питання: {question}\nВідповідь: {answer}")
-                else:
-                    print("Питання з таким номером не знайдено.")
-            except ValueError:
-                print("Будь ласка, введіть коректний номер питання.")
-    except FileNotFoundError:
-        print(f"Файл {file_path} не знайдено. Перевірте його існування.")
+        print("Запуск process_file через 3 секунды...")
+        time.sleep(3)
+        process_file(dfgdgf, zro, DATABASE)
+        print("process_file выполнена.")
+
+        print("Запуск mainx через 3 секунды...")
+        time.sleep(3)
+        mainx(zro)
+        print("mainx выполнена.")
     except Exception as e:
-        print(f"Сталася помилка: {e}")
+        print(f"Произошла ошибка: {e}")
 
-
-def xoxox(filepath):
-    """Проверяет, существует ли файл и его размер больше нуля."""
-    return os.path.exists(filepath) and os.path.getsize(filepath) > 0
-
-def wait_for_file(filename):
-    """Функция ожидания файла с проверкой через каждые 5 секунд."""
-    elapsed_time = 0
-    while not xoxox(filename) :
-        time.sleep(5)
-        elapsed_time += 5
-    return True
-
-def file_checking_loop():
-    """Цикл проверки файлов, который работает параллельно с main_loop."""
-    y = "visible_text.txt"
-    zro = "ou1tput.txt"
-    fds = "extracted_questions.txt"
-    dfgdgf = "output.txt"
-
-
-    # Виклик функції
-
+def listen_for_hotkey():
+    """Отслеживает горячую клавишу Ctrl + Alt + A и запускает цепочку функций."""
+    print("Ожидаю нажатия Ctrl + Alt + A...")
     while True:
-        # Проверка и обработка visible_text.txt
-        if wait_for_file(y):
+        if keyboard.is_pressed("]"):
+            print("Комбинация Ctrl + Alt + A нажата. Запуск цепочки функций.")
+            threading.Thread(target=execute_sequence, daemon=True).start()
+            # Ждём, чтобы избежать множественных срабатываний на одном нажатии
+            time.sleep(1)
 
-            extract_and_write_questions(y, fds)
-
-        # Ожидание, пока файл fds будет записан
-        if wait_for_file(fds):
-
-            extract_first_sentence(fds, dfgdgf)
-
-        # Ожидание, пока файл dfgdgf будет записан
-        if wait_for_file(dfgdgf):
-
-            process_file(dfgdgf, zro, DATABASE)
-
-        # Ожидание, пока файл zro будет записан
-        if wait_for_file(zro):
-
-            mainx(zro)
-
-        time.sleep(5)  # Проверяем файлы каждые 5 секунд
-
-# Основной процесс
 def main():
-    # Запуск потока для проверки файлов
-    file_check_thread = threading.Thread(target=file_checking_loop, daemon=True)
-    file_check_thread.start()
-
-    # Основной цикл программы (main_loop)
-
-    main_loop()  # Предполагается, что эта функция бесконечна
+    # Запуск потока для отслеживания горячих клавиш
+    hotkey_thread = threading.Thread(target=listen_for_hotkey, daemon=True)
+    hotkey_thread.start()
+    main_loop()
+    # Основной цикл программы
+    while True:
+        time.sleep(1)  # Поддерживает основной поток активным
 
 if __name__ == "__main__":
     main()
+
